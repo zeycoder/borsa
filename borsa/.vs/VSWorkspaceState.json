@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Controllers",
+    "\\Views",
+    "\\Views\\AdminPanel",
+    "\\Views\\AnaSayfa",
+    "\\Views\\GirisYap"
+  ],
+  "SelectedNode": "\\Views\\AnaSayfa\\Index.cshtml",
+  "PreviewInSolutionExplorer": false
+}

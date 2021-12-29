@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="borsaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Item">
+    <Key>
+      <PropertyRef Name="ItemId" />
+    </Key>
+    <Property Name="ItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ItemAdi" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="ItemMiktari" Type="Int32" />
+    <Property Name="Fiyat" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="KullaniciId" Type="Int32" />
+    <NavigationProperty Name="Kullanicilar" Relationship="Self.FK_Item_Kullanicilar" FromRole="Item" ToRole="Kullanicilar" />
+    <NavigationProperty Name="KullaniciItem" Relationship="Self.FK_KullaniciItem_Item" FromRole="Item" ToRole="KullaniciItem" />
+    <Property Name="ItemOnay" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="KullaniciItem">
+    <Key>
+      <PropertyRef Name="KullaniciItemId" />
+    </Key>
+    <Property Name="KullaniciItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="KullaniciId" Type="Int32" />
+    <Property Name="ItemId" Type="Int32" />
+    <Property Name="ItemMiktari" Type="Decimal" Precision="8" Scale="2" />
+    <NavigationProperty Name="Item" Relationship="Self.FK_KullaniciItem_Item" FromRole="KullaniciItem" ToRole="Item" />
+    <NavigationProperty Name="Kullanicilar" Relationship="Self.FK_KullaniciItem_Kullanicilar" FromRole="KullaniciItem" ToRole="Kullanicilar" />
+  </EntityType>
+  <EntityType Name="Kullanicilar">
+    <Key>
+      <PropertyRef Name="KullaniciId" />
+    </Key>
+    <Property Name="KullaniciId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Adi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Soyadi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="KullaniciAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Sifre" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="Tc" Type="String" MaxLength="11" FixedLength="true" Unicode="false" />
+    <Property Name="Tel" Type="String" MaxLength="11" FixedLength="true" Unicode="false" />
+    <Property Name="Adres" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Unvan" Type="Boolean" />
+    <NavigationProperty Name="Item" Relationship="Self.FK_Item_Kullanicilar" FromRole="Kullanicilar" ToRole="Item" />
+    <NavigationProperty Name="KullaniciItem" Relationship="Self.FK_KullaniciItem_Kullanicilar" FromRole="Kullanicilar" ToRole="KullaniciItem" />
+    <NavigationProperty Name="Para" Relationship="Self.FK_Para_Kullanicilar" FromRole="Kullanicilar" ToRole="Para" />
+  </EntityType>
+  <EntityType Name="Para">
+    <Key>
+      <PropertyRef Name="ParaId" />
+    </Key>
+    <Property Name="ParaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="KullaniciId" Type="Int32" />
+    <Property Name="ParaMiktar" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="ParaOnay" Type="Boolean" />
+    <NavigationProperty Name="Kullanicilar" Relationship="Self.FK_Para_Kullanicilar" FromRole="Para" ToRole="Kullanicilar" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_Item_Kullanicilar">
+    <End Role="Kullanicilar" Type="Self.Kullanicilar" Multiplicity="0..1" />
+    <End Role="Item" Type="Self.Item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kullanicilar">
+        <PropertyRef Name="KullaniciId" />
+      </Principal>
+      <Dependent Role="Item">
+        <PropertyRef Name="KullaniciId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_KullaniciItem_Item">
+    <End Role="Item" Type="Self.Item" Multiplicity="0..1" />
+    <End Role="KullaniciItem" Type="Self.KullaniciItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Item">
+        <PropertyRef Name="ItemId" />
+      </Principal>
+      <Dependent Role="KullaniciItem">
+        <PropertyRef Name="ItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_KullaniciItem_Kullanicilar">
+    <End Role="Kullanicilar" Type="Self.Kullanicilar" Multiplicity="0..1" />
+    <End Role="KullaniciItem" Type="Self.KullaniciItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kullanicilar">
+        <PropertyRef Name="KullaniciId" />
+      </Principal>
+      <Dependent Role="KullaniciItem">
+        <PropertyRef Name="KullaniciId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Para_Kullanicilar">
+    <End Role="Kullanicilar" Type="Self.Kullanicilar" Multiplicity="0..1" />
+    <End Role="Para" Type="Self.Para" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kullanicilar">
+        <PropertyRef Name="KullaniciId" />
+      </Principal>
+      <Dependent Role="Para">
+        <PropertyRef Name="KullaniciId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="borsaEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Item" EntityType="Self.Item" />
+    <EntitySet Name="KullaniciItem" EntityType="Self.KullaniciItem" />
+    <EntitySet Name="Kullanicilar" EntityType="Self.Kullanicilar" />
+    <EntitySet Name="Para" EntityType="Self.Para" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <AssociationSet Name="FK_Item_Kullanicilar" Association="Self.FK_Item_Kullanicilar">
+      <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+      <End Role="Item" EntitySet="Item" />
+    </AssociationSet>
+    <AssociationSet Name="FK_KullaniciItem_Item" Association="Self.FK_KullaniciItem_Item">
+      <End Role="Item" EntitySet="Item" />
+      <End Role="KullaniciItem" EntitySet="KullaniciItem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_KullaniciItem_Kullanicilar" Association="Self.FK_KullaniciItem_Kullanicilar">
+      <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+      <End Role="KullaniciItem" EntitySet="KullaniciItem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Para_Kullanicilar" Association="Self.FK_Para_Kullanicilar">
+      <End Role="Kullanicilar" EntitySet="Kullanicilar" />
+      <End Role="Para" EntitySet="Para" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
